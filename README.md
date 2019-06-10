@@ -8,7 +8,7 @@
 <ul>
 <li>Easy to install and manage.</li>
 <li>Custom email template for inquiry</li>
-<li>The admin has the right to approve or reject the inquiry answer.</li>
+<li>The admin has the right to approve or reject the inquiry.</li>
 <li>Both registered & unregistered customers can send the inquiry.</li>
 <li>Both admin and customer will be notified via email once the inquiry is submitted.</li>
 <li>Customer can get email notification once inquiry has been replied by Admin.</li>
