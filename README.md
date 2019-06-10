@@ -7,38 +7,17 @@
 <h3><b>Features</b></h3>
 <ul>
 <li>Easy to install and manage.</li>
-<li></li>
-<li></li>
-<li></li>
-<li></li>
-<li></li>
-<li></li>
-<li></li>
-
-
+<li>Custom email template for inquiry</li>
+<li>The admin has the right to approve or reject the inquiry answer.</li>
+<li>Both registered & unregistered customers can send the inquiry.</li>
+<li>Both admin and customer will be notified via email once the inquiry is submitted.</li>
+<li>Customer can get email notification once inquiry has been replied by Admin.</li>
+<li>Admin can marked question as display in front so that question is visible on product page</li>
+<li>Rich set of configuration options</li>
+<li>PSR-4 coding standard followed</li>
 </ul>
+
 <p>In the case of any other queries regarding this extension:</p>
 <p>Contact us at <b>mage2developer@gmail.com || shishangiya.yogesh@gmail.com </b> or Skype : <b>mage2developer</b> and we will be all happy to assist you!</p>
 
 <p><b>Compitable :- </b> <b>Magento 2.3 & above versions. </b></p>
-
-
-
-
-
-
-Custom email template for inquiry
-
-The admin has the right to approve or reject the inquiry answer.
-
-The email of admin and user can be configured from the Magento backend.
-
-Both registered & unregistered customers can send the inquiry.
-
-Both admin and customer will be notified via email once the inquiry is submitted.
-
-The default inquiry status can be changed from the backend.
-
-Rich set of configuration options
-
-Customers can see their past inquiries after login
