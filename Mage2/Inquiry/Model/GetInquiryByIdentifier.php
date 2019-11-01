@@ -9,7 +9,7 @@ namespace Mage2\Inquiry\Model;
 
 use Mage2\Inquiry\Api\GetInquiryByIdentifierInterface;
 use Mage2\Inquiry\Api\Data\InquiryInterface;
-use Magento\Cms\Model\InquiryFactory;
+use Mage2\Inquiry\Model\InquiryFactory;
 use Magento\Framework\Exception\NoSuchEntityException;
 
 /**
