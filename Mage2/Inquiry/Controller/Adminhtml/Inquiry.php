@@ -1,10 +1,11 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: yogesh
- * Date: 14/2/19
- * Time: 12:43 PM
+ * Product Name: Mage2 Product Inquiry
+ * Module Name: Mage2_Inquiry
+ * Created By: Yogesh Shishangiya
  */
+
+declare(strict_types=1);
 
 namespace Mage2\Inquiry\Controller\Adminhtml;
 
@@ -13,6 +14,11 @@ use Magento\Backend\App\Action\Context;
 use Magento\Backend\Model\View\Result\Page;
 use Magento\Framework\Registry;
 
+/**
+ * Class Inquiry
+ *
+ * @package Mage2\Inquiry\Controller\Adminhtml
+ */
 abstract class Inquiry extends Action
 {
     /**

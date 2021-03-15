@@ -1,5 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<form xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Ui:etc/ui_configuration.xsd">
+<!--
+/**
+ * Product Name: Mage2 Product Inquiry
+ * Module Name: Mage2_Inquiry
+ * Created By: Yogesh Shishangiya
+ */
+-->
+<form xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Ui:etc/ui_configuration.xsd">
     <argument name="data" xsi:type="array">
         <item name="js_config" xsi:type="array">
             <item name="provider" xsi:type="string">inquiry_inquiry_form.inquiry_form_data_source</item>
@@ -114,14 +122,14 @@
             </argument>
             <settings>
                 <validation>
-                   <rule name="validate-digits" xsi:type="boolean">true</rule>
+                    <rule name="validate-digits" xsi:type="boolean">true</rule>
                 </validation>
                 <dataType>text</dataType>
                 <label translate="true">Mobile Number</label>
                 <dataScope>mobile_number</dataScope>
             </settings>
         </field>
-        <field name="message" sortOrder="50"  formElement="textarea">
+        <field name="message" sortOrder="50" formElement="textarea">
             <argument name="data" xsi:type="array">
                 <item name="config" xsi:type="array">
                     <item name="source" xsi:type="string">inquiry</item>
@@ -136,7 +144,7 @@
                 <dataScope>message</dataScope>
             </settings>
         </field>
-        <field name="email" sortOrder="60"  formElement="input">
+        <field name="email" sortOrder="60" formElement="input">
             <argument name="data" xsi:type="array">
                 <item name="config" xsi:type="array">
                     <item name="source" xsi:type="string">inquiry</item>
@@ -175,7 +183,7 @@
                 </checkbox>
             </formElements>
         </field>
-        <field name="admin_message" sortOrder="80"  formElement="textarea">
+        <field name="admin_message" sortOrder="80" formElement="textarea">
             <argument name="data" xsi:type="array">
                 <item name="config" xsi:type="array">
                     <item name="source" xsi:type="string">inquiry</item>

@@ -1,4 +1,11 @@
 <?php
+/**
+ * Product Name: Mage2 Product Inquiry
+ * Module Name: Mage2_Inquiry
+ * Created By: Yogesh Shishangiya
+ */
+
+declare(strict_types=1);
 
 namespace Mage2\Inquiry\Controller\Adminhtml\Inquiry;
 
@@ -7,6 +14,11 @@ use Magento\Backend\App\Action\Context;
 use Magento\Backend\Model\View\Result\Page;
 use Magento\Framework\View\Result\PageFactory;
 
+/**
+ * Class Index
+ *
+ * @package Mage2\Inquiry\Controller\Adminhtml\Inquiry
+ */
 class Index extends Action
 {
     const ADMIN_RESOURCE = 'Mage2_Inquiry::index';
@@ -14,7 +26,7 @@ class Index extends Action
     /**
      * @var PageFactory
      */
-    protected $resultPagee;
+    protected $resultPageFactory;
 
     /**
      * @param Context $context
@@ -31,7 +43,7 @@ class Index extends Action
     /**
      * Index action
      *
-     * @return void
+     * @return Page
      */
     public function execute()
     {

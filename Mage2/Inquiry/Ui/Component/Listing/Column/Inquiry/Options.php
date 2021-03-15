@@ -1,14 +1,20 @@
 <?php
 /**
- * Copyright © Magento, Inc. All rights reserved.
- * See COPYING.txt for license details.
+ * Product Name: Mage2 Product Inquiry
+ * Module Name: Mage2_Inquiry
+ * Created By: Yogesh Shishangiya
  */
+
+declare(strict_types=1);
+
 namespace Mage2\Inquiry\Ui\Component\Listing\Column\Inquiry;
 
 use Magento\Store\Ui\Component\Listing\Column\Store\Options as StoreOptions;
 
 /**
- * Store Options for Cms Pages and Blocks
+ * Class Options
+ *
+ * @package Mage2\Inquiry\Ui\Component\Listing\Column\Inquiry
  */
 class Options extends StoreOptions
 {

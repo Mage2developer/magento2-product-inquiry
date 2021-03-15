@@ -1,57 +1,45 @@
 <?php
 /**
- * Copyright © Mage2 Developer, Inc. All rights reserved.
- * See COPYING.txt for license details.
+ * Product Name: Mage2 Product Inquiry
+ * Module Name: Mage2_Inquiry
+ * Created By: Yogesh Shishangiya
  */
+
+declare(strict_types=1);
+
 namespace Mage2\Inquiry\Model;
 
 use Magento\Framework\Model\AbstractModel;
 use Mage2\Inquiry\Api\Data\InquiryInterface;
 
+/**
+ * Class Inquiry
+ *
+ * @package Mage2\Inquiry\Model
+ */
 class Inquiry extends AbstractModel implements InquiryInterface
 {
-    /**
-     * CMS block cache tag
-     */
-    const CACHE_TAG = 'inquiry_b';
-
-    /**#@+
-     * Block's statuses
-     */
-    const STATUS_ENABLED = 1;
+    const CACHE_TAG       = 'inquiry_b';
+    const STATUS_ENABLED  = 1;
     const STATUS_DISABLED = 0;
 
-    /**#@-*/
-
-    /**#@-*/
+    /**
+     * @var string
+     */
     protected $_cacheTag = self::CACHE_TAG;
 
     /**
-     * Prefix of model events names
-     *
      * @var string
      */
     protected $_eventPrefix = 'mage2_inquiry';
 
     /**
-     * Name of object id field
-     *
      * @var string
      */
-    protected $_idFieldName = self::INQUIRY_ID; // parent value is 'id'
+    protected $_idFieldName = self::INQUIRY_ID;
 
     /**
-     * Initialize resource model
-     *
-     * @return void
-     */
-    protected function _construct()
-    {
-        $this->_init(\Mage2\Inquiry\Model\ResourceModel\Inquiry::class);
-    }
-
-    /**
-     * Prepare block's statuses.
+     * Prepare inquiry statuses.
      *
      * @return array
      */
@@ -61,7 +49,7 @@ class Inquiry extends AbstractModel implements InquiryInterface
     }
 
     /**
-     * Retrieve inquiry id
+     * Get ID
      *
      * @return int
      */
@@ -91,7 +79,7 @@ class Inquiry extends AbstractModel implements InquiryInterface
     }
 
     /**
-     * Get message
+     * Get Message
      *
      * @return string|null
      */
@@ -101,7 +89,7 @@ class Inquiry extends AbstractModel implements InquiryInterface
     }
 
     /**
-     * Get EMAIL
+     * Get Email
      *
      * @return string|null
      */
@@ -111,17 +99,17 @@ class Inquiry extends AbstractModel implements InquiryInterface
     }
 
     /**
-     * Get Product Id
+     * Get Product Sku
      *
-     * @return int|null
+     * @return string
      */
-    public function getProductId()
+    public function getSku()
     {
-        return $this->getData(self::PRODUCT_ID);
+        return $this->getData(self::SKU);
     }
 
     /**
-     * Get display front setting
+     * Get Display in front setting
      *
      * @return boolean|null
      */
@@ -131,7 +119,7 @@ class Inquiry extends AbstractModel implements InquiryInterface
     }
 
     /**
-     * Get admin message
+     * Get Admin message
      *
      * @return string|null
      */
@@ -141,7 +129,7 @@ class Inquiry extends AbstractModel implements InquiryInterface
     }
 
     /**
-     * Get status
+     * Get Status
      *
      * @return boolean|null
      */
@@ -164,16 +152,18 @@ class Inquiry extends AbstractModel implements InquiryInterface
     /**
      * Set Name
      *
+     * @param string $name
      * @return InquiryInterface
      */
     public function setName($name)
     {
-        return (string)$this->setData(self::NAME, $name);
+        return $this->setData(self::NAME, $name);
     }
 
     /**
      * Set Mobile Number
      *
+     * @param string $mobile_number
      * @return InquiryInterface
      */
     public function setMobileNumber($mobile_number)
@@ -182,8 +172,9 @@ class Inquiry extends AbstractModel implements InquiryInterface
     }
 
     /**
-     * set message
+     * Set message
      *
+     * @param string $message
      * @return InquiryInterface
      */
     public function setMessage($message)
@@ -192,8 +183,9 @@ class Inquiry extends AbstractModel implements InquiryInterface
     }
 
     /**
-     * set EMAIL
+     * Set Email
      *
+     * @param string $email
      * @return InquiryInterface
      */
     public function setEmail($email)
@@ -202,18 +194,20 @@ class Inquiry extends AbstractModel implements InquiryInterface
     }
 
     /**
-     * set Product Id
+     * Set Product Sku
      *
+     * @param string $sku
      * @return InquiryInterface
      */
-    public function setProductId($product_id)
+    public function setSku($sku)
     {
-        return $this->setData(self::PRODUCT_ID, $product_id);
+        return $this->setData(self::SKU, $sku);
     }
 
     /**
-     * set display front setting
+     * Set Display in front setting
      *
+     * @param bool|int $display_front
      * @return InquiryInterface
      */
     public function setDisplayFront($display_front)
@@ -222,8 +216,9 @@ class Inquiry extends AbstractModel implements InquiryInterface
     }
 
     /**
-     * set admin message
+     * Set Admin Message
      *
+     * @param string $admin_message
      * @return InquiryInterface
      */
     public function setAdminMessage($admin_message)
@@ -232,12 +227,23 @@ class Inquiry extends AbstractModel implements InquiryInterface
     }
 
     /**
-     * set status
+     * Set Status
      *
+     * @param bool|int $status
      * @return InquiryInterface
      */
     public function setStatus($status)
     {
         return $this->setData(self::STATUS, $status);
+    }
+
+    /**
+     * Initialize resource model
+     *
+     * @return void
+     */
+    protected function _construct()
+    {
+        $this->_init(\Mage2\Inquiry\Model\ResourceModel\Inquiry::class);
     }
 }

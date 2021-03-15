@@ -1,8 +1,12 @@
 <?php
 /**
- * Copyright © Mage2 Developer, Inc. All rights reserved.
- * See COPYING.txt for license details.
+ * Product Name: Mage2 Product Inquiry
+ * Module Name: Mage2_Inquiry
+ * Created By: Yogesh Shishangiya
  */
+
+declare(strict_types=1);
+
 namespace Mage2\Inquiry\Controller\Adminhtml\Inquiry;
 
 use Mage2\Inquiry\Controller\Adminhtml\Inquiry;
@@ -15,6 +19,11 @@ use Magento\Framework\Controller\ResultInterface;
 use Magento\Framework\Registry;
 use Magento\Framework\View\Result\PageFactory;
 
+/**
+ * Class Edit
+ *
+ * @package Mage2\Inquiry\Controller\Adminhtml\Inquiry
+ */
 class Edit extends Inquiry implements HttpGetActionInterface
 {
     /**
@@ -39,20 +48,19 @@ class Edit extends Inquiry implements HttpGetActionInterface
         InquiryFactory $inquiryFactory
     ) {
         $this->resultPageFactory = $resultPageFactory;
-        $this->inquiryFactory = $inquiryFactory;
+        $this->inquiryFactory    = $inquiryFactory;
         parent::__construct($context, $coreRegistry);
     }
 
     /**
-     * Edit inquiry
+     * Edit action
      *
-     * @return ResultInterface
-     * @SuppressWarnings(PHPMD.NPathComplexity)
+     * @return Page|Redirect|\Magento\Framework\App\ResponseInterface|ResultInterface
      */
     public function execute()
     {
         // 1. Get ID and create model
-        $id = $this->getRequest()->getParam('inquiry_id');
+        $id    = $this->getRequest()->getParam('inquiry_id');
         $model = $this->inquiryFactory->create();
 
         // 2. Initial checking

@@ -1,10 +1,12 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: yogesh
- * Date: 20/2/19
- * Time: 7:44 PM
+ * Product Name: Mage2 Product Inquiry
+ * Module Name: Mage2_Inquiry
+ * Created By: Yogesh Shishangiya
  */
+
+declare(strict_types=1);
+
 namespace Mage2\Inquiry\Block\Adminhtml\Inquiry\Edit;
 
 use Magento\Backend\Block\Widget\Context;
@@ -14,6 +16,8 @@ use Magento\Framework\Exception\NoSuchEntityException;
 
 /**
  * Class GenericButton
+ *
+ * @package Mage2\Inquiry\Block\Adminhtml\Inquiry\Edit
  */
 class GenericButton
 {
@@ -28,6 +32,8 @@ class GenericButton
     protected $inquiryRepository;
 
     /**
+     * GenericButton constructor.
+     *
      * @param Context $context
      * @param InquiryRepositoryInterface $inquiryRepository
      */
@@ -35,13 +41,15 @@ class GenericButton
         Context $context,
         InquiryRepositoryInterface $inquiryRepository
     ) {
-        $this->context = $context;
+        $this->context           = $context;
         $this->inquiryRepository = $inquiryRepository;
     }
 
     /**
+     * Get product inquiry id from url params
+     *
      * @return int|null
-     * @throws LocalizedException
+     * @throws NoSuchEntityException
      */
     public function getInquiryId()
     {
@@ -50,16 +58,16 @@ class GenericButton
                 $this->context->getRequest()->getParam('inquiry_id')
             )->getId();
         } catch (NoSuchEntityException $e) {
+            return $e->getMessage();
         }
-        return null;
     }
 
     /**
      * Generate url by route and parameters
      *
-     * @param   string $route
-     * @param   array $params
-     * @return  string
+     * @param string $route
+     * @param array $params
+     * @return string
      */
     public function getUrl($route = '', $params = [])
     {

@@ -1,10 +1,12 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: yogesh
- * Date: 14/2/19
- * Time: 12:01 PM
+ * Product Name: Mage2 Product Inquiry
+ * Module Name: Mage2_Inquiry
+ * Created By: Yogesh Shishangiya
  */
+
+declare(strict_types=1);
+
 namespace Mage2\Inquiry\Controller\Adminhtml\Inquiry;
 
 use Exception;
@@ -12,13 +14,16 @@ use Mage2\Inquiry\Model\Inquiry;
 use Magento\Backend\App\Action;
 use Magento\Backend\App\Action\Context;
 use Mage2\Inquiry\Api\InquiryRepositoryInterface as InquiryRepository;
-use Magento\Cms\Api\InquiryRepositoryInterface;
 use Magento\Framework\Controller\Result\Json;
 use Magento\Framework\Controller\Result\JsonFactory;
 use Mage2\Inquiry\Api\Data\InquiryInterface;
 use Magento\Framework\Controller\ResultInterface;
-use Magento\Framework\Exception\LocalizedException;
 
+/**
+ * Class InlineEdit
+ *
+ * @package Mage2\Inquiry\Controller\Adminhtml\Inquiry
+ */
 class InlineEdit extends Action
 {
     /**
@@ -29,7 +34,7 @@ class InlineEdit extends Action
     const ADMIN_RESOURCE = 'Mage2_Inquiry::inquiry';
 
     /**
-     * @var InquiryRepositoryInterface
+     * @var InquiryRepository
      */
     protected $inquiryRepository;
 
@@ -50,25 +55,27 @@ class InlineEdit extends Action
     ) {
         parent::__construct($context);
         $this->inquiryRepository = $inquiryRepository;
-        $this->jsonFactory = $jsonFactory;
+        $this->jsonFactory       = $jsonFactory;
     }
 
     /**
-     * @return ResultInterface
-     * @throws LocalizedException
+     * Inline edit action
+     *
+     * @return \Magento\Framework\App\ResponseInterface|Json|ResultInterface
+     * @throws \Magento\Framework\Exception\NoSuchEntityException
      */
     public function execute()
     {
         /** @var Json $resultJson */
         $resultJson = $this->jsonFactory->create();
-        $error = false;
-        $messages = [];
+        $error      = false;
+        $messages   = [];
 
         if ($this->getRequest()->getParam('isAjax')) {
             $postItems = $this->getRequest()->getParam('items', []);
             if (!count($postItems)) {
                 $messages[] = __('Please correct the data sent.');
-                $error = true;
+                $error      = true;
             } else {
                 foreach (array_keys($postItems) as $inquiryId) {
                     /** @var Inquiry $inquiry */
@@ -81,23 +88,20 @@ class InlineEdit extends Action
                             $inquiry,
                             __($e->getMessage())
                         );
-                        $error = true;
+                        $error      = true;
                     }
                 }
             }
         }
 
-        return $resultJson->setData([
-            'messages' => $messages,
-            'error' => $error
-        ]);
+        return $resultJson->setData(['messages' => $messages, 'error' => $error]);
     }
 
     /**
      * Add Inquiry title to error message
      *
      * @param InquiryInterface $inquiry
-     * @param string $errorText
+     * @param $errorText
      * @return string
      */
     protected function getErrorWithInquiryId(InquiryInterface $inquiry, $errorText)

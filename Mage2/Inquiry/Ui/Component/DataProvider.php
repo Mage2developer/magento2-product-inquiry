@@ -1,10 +1,12 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: yogesh
- * Date: 7/2/19
- * Time: 3:17 PM
+ * Product Name: Mage2 Product Inquiry
+ * Module Name: Mage2_Inquiry
+ * Created By: Yogesh Shishangiya
  */
+
+declare(strict_types=1);
+
 namespace Mage2\Inquiry\Ui\Component;
 
 use Magento\Framework\Api\Filter;
@@ -15,6 +17,11 @@ use Magento\Framework\App\RequestInterface;
 use Magento\Framework\AuthorizationInterface;
 use Magento\Framework\View\Element\UiComponent\DataProvider\Reporting;
 
+/**
+ * Class DataProvider
+ *
+ * @package Mage2\Inquiry\Ui\Component
+ */
 class DataProvider extends \Magento\Framework\View\Element\UiComponent\DataProvider\DataProvider
 {
     /**
@@ -23,11 +30,13 @@ class DataProvider extends \Magento\Framework\View\Element\UiComponent\DataProvi
     private $authorization;
 
     /**
-     * @var AddFilterInterface[]
+     * @var array
      */
     private $additionalFilterPool;
 
     /**
+     * DataProvider constructor.
+     *
      * @param string $name
      * @param string $primaryFieldName
      * @param string $requestFieldName
@@ -38,7 +47,6 @@ class DataProvider extends \Magento\Framework\View\Element\UiComponent\DataProvi
      * @param array $meta
      * @param array $data
      * @param array $additionalFilterPool
-     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
         $name,
@@ -64,24 +72,12 @@ class DataProvider extends \Magento\Framework\View\Element\UiComponent\DataProvi
             $data
         );
 
-        $this->meta = array_replace_recursive($meta, $this->prepareMetadata());
+        $this->meta                 = array_replace_recursive($meta, $this->prepareMetadata());
         $this->additionalFilterPool = $additionalFilterPool;
     }
 
     /**
-     * @deprecated 101.0.7
-     * @return AuthorizationInterface|mixed
-     */
-    private function getAuthorizationInstance()
-    {
-        if ($this->authorization === null) {
-            $this->authorization = ObjectManager::getInstance()->get(AuthorizationInterface::class);
-        }
-        return $this->authorization;
-    }
-
-    /**
-     * Prepares Meta
+     * Prepares meta
      *
      * @return array
      */
@@ -109,7 +105,23 @@ class DataProvider extends \Magento\Framework\View\Element\UiComponent\DataProvi
     }
 
     /**
-     * @inheritdoc
+     * Get authorization instance
+     *
+     * @return AuthorizationInterface|mixed
+     */
+    private function getAuthorizationInstance()
+    {
+        if ($this->authorization === null) {
+            $this->authorization = ObjectManager::getInstance()->get(AuthorizationInterface::class);
+        }
+        return $this->authorization;
+    }
+
+    /**
+     * Add filer
+     *
+     * @param Filter $filter
+     * @return mixed|void
      */
     public function addFilter(Filter $filter)
     {

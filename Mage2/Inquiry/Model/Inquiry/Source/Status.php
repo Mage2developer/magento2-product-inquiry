@@ -1,10 +1,12 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: yogesh
- * Date: 25/2/19
- * Time: 8:06 PM
+ * Product Name: Mage2 Product Inquiry
+ * Module Name: Mage2_Inquiry
+ * Created By: Yogesh Shishangiya
  */
+
+declare(strict_types=1);
+
 namespace Mage2\Inquiry\Model\Inquiry\Source;
 
 use Mage2\Inquiry\Model\Inquiry;
@@ -12,23 +14,25 @@ use Magento\Cms\Model\Block;
 use Magento\Framework\Data\OptionSourceInterface;
 
 /**
- * Class IsActive
+ * Class Status
+ *
+ * @package Mage2\Inquiry\Model\Inquiry\Source
  */
 class Status implements OptionSourceInterface
 {
     /**
-     * @var Block
+     * @var Inquiry
      */
-    protected $Inquiry;
+    protected $inquiry;
 
     /**
      * Constructor
      *
-     * @param Inquiry $Inquiry
+     * @param Inquiry $inquiry
      */
-    public function __construct(Inquiry $Inquiry)
+    public function __construct(Inquiry $inquiry)
     {
-        $this->inquiry = $Inquiry;
+        $this->inquiry = $inquiry;
     }
 
     /**
@@ -39,7 +43,7 @@ class Status implements OptionSourceInterface
     public function toOptionArray()
     {
         $availableOptions = $this->inquiry->getAvailableStatuses();
-        $options = [];
+        $options          = [];
         foreach ($availableOptions as $key => $value) {
             $options[] = [
                 'label' => $value,

@@ -1,16 +1,21 @@
 <?xml version="1.0"?>
 <!--
 /**
- * Copyright © 2013-2017 Magento, Inc. All rights reserved.
- * See COPYING.txt for license details.
+ * Product Name: Mage2 Product Inquiry
+ * Module Name: Mage2_Inquiry
+ * Created By: Yogesh Shishangiya
  */
 -->
-<page layout="1column" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="1column"
+      xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
     <body>
         <referenceBlock name="product.info.details">
-            <block class="Magento\Catalog\Block\Product\View" ifconfig="mage2_product_inquiry_section/general/questionenabled" name="product.inquiry" as="product.inquiry" after="-" template="Mage2_Inquiry::inquiry_index_index.phtml" group="detailed_info">
+            <block class="Magento\Catalog\Block\Product\View" ifconfig="mage2_product_inquiry_section/general/enabled"
+                   name="product.inquiry" as="product.inquiry" after="-"
+                   template="Mage2_Inquiry::inquiry_index_index.phtml" group="detailed_info">
                 <arguments>
-                    <argument translate="true" name="title" xsi:type="string">Product Inquiry</argument>
+                    <argument name="title" xsi:type="string" translate="true">Product Inquiry</argument>
+                    <argument name="inquiry_view_model" xsi:type="object">Mage2\Inquiry\ViewModel\Inquiry</argument>
                 </arguments>
             </block>
         </referenceBlock>

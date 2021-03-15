@@ -1,20 +1,25 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: yogesh
- * Date: 12/2/19
- * Time: 6:13 PM
+ * Product Name: Mage2 Product Inquiry
+ * Module Name: Mage2_Inquiry
+ * Created By: Yogesh Shishangiya
  */
+
+declare(strict_types=1);
+
 namespace Mage2\Inquiry\Api;
 
-use Mage2\Inquiry\Api\Data\BlockSearchResultsInterface;
+use Mage2\Inquiry\Api\Data\InquirySearchResultsInterface;
 use Mage2\Inquiry\Api\Data\InquiryInterface;
 use Magento\Framework\Api\SearchCriteriaInterface;
-use Magento\Framework\Exception\LocalizedException;
+use Magento\Framework\Exception\CouldNotDeleteException;
+use Magento\Framework\Exception\CouldNotSaveException;
 use Magento\Framework\Exception\NoSuchEntityException;
 
 /**
- * Inquiry CRUD interface.
+ * Interface InquiryRepositoryInterface
+ *
+ * @package Mage2\Inquiry\Api
  */
 interface InquiryRepositoryInterface
 {
@@ -23,44 +28,43 @@ interface InquiryRepositoryInterface
      *
      * @param InquiryInterface $inquiry
      * @return InquiryInterface
-     * @throws LocalizedException
+     * @throws CouldNotSaveException
+     * @throws NoSuchEntityException
      */
     public function save(InquiryInterface $inquiry);
 
     /**
-     * Retrieve Inquiry.
+     * Retrieve inquiry by ID.
      *
      * @param int $inquiry_id
      * @return InquiryInterface
-     * @throws LocalizedException
+     * @throws NoSuchEntityException
      */
     public function getById($inquiry_id);
 
     /**
-     * Retrieve blocks matching the specified criteria.
+     * Retrieve inquiries matching the specified criteria.
      *
      * @param SearchCriteriaInterface $searchCriteria
-     * @return BlockSearchResultsInterface
-     * @throws LocalizedException
+     * @return InquirySearchResultsInterface
      */
     public function getList(SearchCriteriaInterface $searchCriteria);
 
     /**
-     * Delete block.
+     * Delete inquiry
      *
      * @param InquiryInterface $inquiry
-     * @return bool true on success
-     * @throws LocalizedException
+     * @return bool
+     * @throws CouldNotDeleteException
      */
     public function delete(Data\InquiryInterface $inquiry);
 
     /**
-     * Delete block by ID.
+     * Delete Inquiry by given Inquiry Identity
      *
-     * @param int $inquiry_id
-     * @return bool true on success
-     * @throws NoSuchEntityException
-     * @throws LocalizedException
+     * @param string $inquiryId
+     * @return bool
+     * @throws CouldNotDeleteException
      */
     public function deleteById($inquiry_id);
 }

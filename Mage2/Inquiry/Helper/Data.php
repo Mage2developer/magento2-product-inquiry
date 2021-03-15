@@ -1,10 +1,12 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: yogesh
- * Date: 5/3/19
- * Time: 12:17 PM
+ * Product Name: Mage2 Product Inquiry
+ * Module Name: Mage2_Inquiry
+ * Created By: Yogesh Shishangiya
  */
+
+declare(strict_types=1);
+
 namespace Mage2\Inquiry\Helper;
 
 use Magento\Catalog\Api\Data\ProductInterface;
@@ -22,18 +24,19 @@ use Magento\Store\Model\StoreManagerInterface as StoreManager;
 
 /**
  * Class Data
+ *
  * @package Mage2\Inquiry\Helper
  */
 class Data extends AbstractHelper
 {
-    const CUSTOM_SENDER_EMAIL = 'mage2_product_inquiry_section/general/senderemail';
-    const CUSTOM_SENDER_NAME  = 'mage2_product_inquiry_section/general/sendername';
-    const CONTACT_SENDER_EMAIL = 'contact/email/recipient_email';
-    const CONTACT_SENDER_NAME = 'contact/email/sender_email_identity';
+    const CUSTOM_SENDER_EMAIL      = 'mage2_product_inquiry_section/general/senderemail';
+    const CUSTOM_SENDER_NAME       = 'mage2_product_inquiry_section/general/sendername';
+    const CONTACT_SENDER_EMAIL     = 'contact/email/recipient_email';
+    const CONTACT_SENDER_NAME      = 'contact/email/sender_email_identity';
     const QUESTION_DISPLAY_SETTING = 'mage2_product_inquiry_section/general/questionenabled';
-    const EMAIL_SEND_SETTING_ADMIN  = 'mage2_product_inquiry_section/general/sendemailtoadmin';
-    const QUESTION_DISPLAY_COUNT  = 'mage2_product_inquiry_section/general/questioncount';
-    const DEFAULT_QUESTION_COUNT = 5;
+    const EMAIL_SEND_SETTING_ADMIN = 'mage2_product_inquiry_section/general/sendemailtoadmin';
+    const QUESTION_DISPLAY_COUNT   = 'mage2_product_inquiry_section/general/questioncount';
+    const DEFAULT_QUESTION_COUNT   = 5;
 
     /**
      * @var ScopeConfig
@@ -77,16 +80,98 @@ class Data extends AbstractHelper
         TransportBuilder $transportBuilder,
         InlineTranslation $inlineTranslation
     ) {
-    
+
         parent::__construct($context);
-        $this->transportBuilder = $transportBuilder;
+        $this->transportBuilder  = $transportBuilder;
         $this->inlineTranslation = $inlineTranslation;
-        $this->scopeConfig = $scopeConfig;
-        $this->storeManager = $storeManager;
+        $this->scopeConfig       = $scopeConfig;
+        $this->storeManager      = $storeManager;
         $this->productRepository = $productRepository;
     }
 
     /**
+     * Get number og questions to be displayed above product inquiry form
+     *
+     * @return int|mixed
+     */
+    public function getQuestionCount()
+    {
+        $questionCount = $this->scopeConfig->getValue(
+            self::QUESTION_DISPLAY_COUNT,
+            ScopeInterface::SCOPE_STORE
+        );
+
+        return ($questionCount) ? $questionCount : self::DEFAULT_QUESTION_COUNT;
+    }
+
+    /**
+     * Get inquiry questions display setting
+     *
+     * @return mixed
+     */
+    public function getQuestionDisplaySetting()
+    {
+        return $this->scopeConfig->getValue(
+            self::QUESTION_DISPLAY_SETTING,
+            ScopeInterface::SCOPE_STORE
+        );
+    }
+
+    /**
+     * Get yes/no value of sending email to admin
+     *
+     * @return mixed
+     */
+    public function isEmailSendToAdmin()
+    {
+        return $this->scopeConfig->getValue(
+            self::EMAIL_SEND_SETTING_ADMIN,
+            ScopeInterface::SCOPE_STORE
+        );
+    }
+
+    /**
+     * Send a product inquiry email to customer
+     *
+     * @param $post
+     * @throws NoSuchEntityException
+     * @throws MailException
+     */
+    public function sendCustomerEmail($post)
+    {
+        $product         = $this->getProductBySku($post['sku']);
+        $templateOptions = ['area' => Area::AREA_FRONTEND, 'store' => $this->storeManager->getStore()->getId()];
+        $templateVars    = [
+            'customer_name' => $post['name'],
+            'message'       => $post['message'],
+            'product_name'  => $product->getName(),
+            'product_url'   => $product->getProductUrl()
+        ];
+
+        // Send Mail
+        $from = ['email' => $this->getSenderEmail(), 'name' => $this->getSenderName()];
+        $this->inlineTranslation->suspend();
+        $to                 = [$post['email']];
+        $templateIdentifier = "product_inquiry_form";
+
+        $this->notify($templateOptions, $templateVars, $from, $to, $templateIdentifier);
+    }
+
+    /**
+     * Get product by sku
+     *
+     * @param $sku
+     * @return ProductInterface
+     * @throws NoSuchEntityException
+     */
+    public function getProductBySku($sku)
+    {
+        return $this->productRepository->get($sku);
+    }
+
+    /**
+     * Get sender email address
+     *
      * @return mixed
      */
     public function getSenderEmail()
@@ -101,10 +186,12 @@ class Data extends AbstractHelper
             ScopeInterface::SCOPE_STORE
         );
 
-        return ($customEmail) ? $customEmail : $contactEmail ;
+        return ($customEmail) ? $customEmail : $contactEmail;
     }
 
     /**
+     * Get sender name
+     *
      * @return mixed
      */
     public function getSenderName()
@@ -119,134 +206,12 @@ class Data extends AbstractHelper
             ScopeInterface::SCOPE_STORE
         );
 
-        return ($customSenderName) ? $customSenderName : $contactSenderName ;
+        return ($customSenderName) ? $customSenderName : $contactSenderName;
     }
 
     /**
-     * @return int|mixed
-     */
-    public function getQuestionCount()
-    {
-        $questionCount =  $this->scopeConfig->getValue(
-            self::QUESTION_DISPLAY_COUNT,
-            ScopeInterface::SCOPE_STORE
-        );
-
-        return ($questionCount) ? $questionCount : self::DEFAULT_QUESTION_COUNT ;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getQuestionDisplaySetting()
-    {
-        return $this->scopeConfig->getValue(
-            self::QUESTION_DISPLAY_SETTING,
-            ScopeInterface::SCOPE_STORE
-        );
-    }
-
-    /**
-     * @return mixed
-     */
-    public function isEmailSendToAdmin()
-    {
-        return $this->scopeConfig->getValue(
-            self::EMAIL_SEND_SETTING_ADMIN,
-            ScopeInterface::SCOPE_STORE
-        );
-    }
-
-    /**
-     * @param $sku
-     * @return ProductInterface
-     * @throws NoSuchEntityException
-     */
-    public function getProductBySku($sku)
-    {
-        return $this->productRepository->get($sku);
-    }
-
-    /**
-     * @param $post
-     * @throws NoSuchEntityException
-     * @throws MailException
-     */
-    public function sendCustomerEmail($post)
-    {
-        $product = $this->getProductBySku($post['sku']);
-        $templateOptions = array('area' => Area::AREA_FRONTEND, 'store' => $this->storeManager->getStore()->getId());
-        $templateVars = array(
-            'customer_name' => $post['name'],
-            'message'   => $post['message'],
-            'product_name' =>  $product->getName(),
-            'product_url' =>   $product->getProductUrl()
-        );
-
-        // Send Mail
-        $from = array('email' => $this->getSenderEmail(), 'name' => $this->getSenderName());
-        $this->inlineTranslation->suspend();
-        $to = array($post['email']);
-        $templateIdentifier = "product_inquiry_form";
-
-        $this->notify($templateOptions, $templateVars, $from, $to, $templateIdentifier);
-    }
-
-    /**
-     * @param $post
-     * @throws NoSuchEntityException
-     * @throws MailException
-     */
-    public function sendAdminEmail($post)
-    {
-        $product = $this->getProductBySku($post['sku']);
-        $templateOptions = array('area' => Area::AREA_FRONTEND, 'store' => $this->storeManager->getStore()->getId());
-        $templateVars = array(
-            'customer_name' => $post['name'],
-            'message'   => $post['message'],
-            'product_name' =>  $product->getName(),
-            'product_url' =>   $product->getProductUrl(),
-            'product_sku' =>   $post['sku'],
-            'email' => $post['email'],
-            'mobile_number' => $post['mobile_number']
-        );
-
-        // Send Mail
-        $from = array('email' => $this->getSenderEmail(), 'name' => $this->getSenderName());
-        $this->inlineTranslation->suspend();
-        $to = array($this->getSenderEmail());
-        $templateIdentifier = "product_inquiry_form_admin";
-
-        $this->notify($templateOptions, $templateVars, $from, $to, $templateIdentifier);
-    }
-
-    /**
-     * @param $post
-     * @throws MailException
-     * @throws NoSuchEntityException
-     */
-    public function sendAdminReplyEmail($post)
-    {
-        $product = $this->getProductBySku($post['sku']);
-        $templateOptions = array('area' => Area::AREA_FRONTEND, 'store' => $this->storeManager->getStore()->getId());
-        $templateVars = array(
-            'customer_name' => $post['name'],
-            'message'   => $post['message'],
-            'product_name' =>  $product->getName(),
-            'product_url' =>   $product->getProductUrl(),
-            'admin_message' =>   $post['admin_message']
-        );
-
-        // Send Mail
-        $from = array('email' => $this->getSenderEmail(), 'name' => $this->getSenderName());
-        $this->inlineTranslation->suspend();
-        $to = array($post['email']);
-        $templateIdentifier = "inquiry_reply";
-
-        $this->notify($templateOptions, $templateVars, $from, $to, $templateIdentifier);
-    }
-
-    /**
+     * Send an email common function
+     *
      * @param $templateOptions
      * @param $templateVars
      * @param $from
@@ -264,5 +229,61 @@ class Data extends AbstractHelper
             ->getTransport();
         $transport->sendMessage();
         $this->inlineTranslation->resume();
+    }
+
+    /**
+     * Send a product inquiry email to admin
+     * @param $post
+     * @throws NoSuchEntityException
+     * @throws MailException
+     */
+    public function sendAdminEmail($post)
+    {
+        $product         = $this->getProductBySku($post['sku']);
+        $templateOptions = ['area' => Area::AREA_FRONTEND, 'store' => $this->storeManager->getStore()->getId()];
+        $templateVars    = [
+            'customer_name' => $post['name'],
+            'message'       => $post['message'],
+            'product_name'  => $product->getName(),
+            'product_url'   => $product->getProductUrl(),
+            'product_sku'   => $post['sku'],
+            'email'         => $post['email'],
+            'mobile_number' => $post['mobile_number']
+        ];
+
+        // Send Mail
+        $from = ['email' => $this->getSenderEmail(), 'name' => $this->getSenderName()];
+        $this->inlineTranslation->suspend();
+        $to                 = [$this->getSenderEmail()];
+        $templateIdentifier = "product_inquiry_form_admin";
+
+        $this->notify($templateOptions, $templateVars, $from, $to, $templateIdentifier);
+    }
+
+    /**
+     * Send a product inquiry reply email to admin
+     * @param $post
+     * @throws MailException
+     * @throws NoSuchEntityException
+     */
+    public function sendAdminReplyEmail($post)
+    {
+        $product         = $this->getProductBySku($post['sku']);
+        $templateOptions = ['area' => Area::AREA_FRONTEND, 'store' => $this->storeManager->getStore()->getId()];
+        $templateVars    = [
+            'customer_name' => $post['name'],
+            'message'       => $post['message'],
+            'product_name'  => $product->getName(),
+            'product_url'   => $product->getProductUrl(),
+            'admin_message' => $post['admin_message']
+        ];
+
+        // Send Mail
+        $from = ['email' => $this->getSenderEmail(), 'name' => $this->getSenderName()];
+        $this->inlineTranslation->suspend();
+        $to                 = [$post['email']];
+        $templateIdentifier = "inquiry_reply";
+
+        $this->notify($templateOptions, $templateVars, $from, $to, $templateIdentifier);
     }
 }

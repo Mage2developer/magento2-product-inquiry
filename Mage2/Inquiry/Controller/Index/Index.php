@@ -1,4 +1,11 @@
 <?php
+/**
+ * Product Name: Mage2 Product Inquiry
+ * Module Name: Mage2_Inquiry
+ * Created By: Yogesh Shishangiya
+ */
+
+declare(strict_types=1);
 
 namespace Mage2\Inquiry\Controller\Index;
 
@@ -9,6 +16,11 @@ use Magento\Framework\Controller\ResultInterface;
 use Magento\Framework\View\Result\Page;
 use Magento\Framework\View\Result\PageFactory;
 
+/**
+ * Class Index
+ *
+ * @package Mage2\Inquiry\Controller\Index
+ */
 class Index extends Action
 {
     /**
@@ -18,6 +30,7 @@ class Index extends Action
 
     /**
      * Index constructor.
+     *
      * @param Context $context
      * @param PageFactory $pageFactory
      */
