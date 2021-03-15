@@ -1,4 +1,10 @@
 <?php
+/**
+ * Product Name: Mage2 Product Inquiry
+ * Module Name: Mage2_Inquiry
+ * Created By: Yogesh Shishangiya
+ */
+declare(strict_types=1);
 
 namespace Mage2\Inquiry\Controller\Index;
 
@@ -15,6 +21,11 @@ use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Store\Model\StoreManagerInterface;
 use Psr\Log\LoggerInterface;
 
+/**
+ * Class Post
+ *
+ * @package Mage2\Inquiry\Controller\Index
+ */
 class Post extends Action
 {
     /**
@@ -38,12 +49,18 @@ class Post extends Action
     protected $helperData;
 
     /**
-     * @var Logger
+     * @var LoggerInterface
      */
     protected $logger;
 
     /**
+     * @var InquiryRepositoryInterface
+     */
+    protected $inquiryRepository;
+
+    /**
      * Post constructor.
+     *
      * @param Context $context
      * @param ScopeConfigInterface $scopeConfig
      * @param StoreManagerInterface $storeManager
@@ -62,21 +79,23 @@ class Post extends Action
         HelperData $helperData
     ) {
         parent::__construct($context);
-        $this->scopeConfig = $scopeConfig;
-        $this->storeManager = $storeManager;
-        $this->inquiryFactory = $inquiryFactory;
+        $this->scopeConfig       = $scopeConfig;
+        $this->storeManager      = $storeManager;
+        $this->inquiryFactory    = $inquiryFactory;
         $this->inquiryRepository = $inquiryRepository;
-        $this->helperData = $helperData;
-        $this->logger = $logger;
+        $this->helperData        = $helperData;
+        $this->logger            = $logger;
     }
 
     /**
+     * Post action
+     *
      * @return ResponseInterface|ResultInterface|void
      * @throws NoSuchEntityException
      */
     public function execute()
     {
-        $post = $this->getRequest()->getPostValue();
+        $post    = $this->getRequest()->getPostValue();
         $product = $this->helperData->getProductBySku($post['sku']);
         $inquiry = $this->inquiryFactory->create();
 
@@ -104,11 +123,11 @@ class Post extends Action
                     $this->logger->error($e->getMessage());
                 }
             }
-            $this->messageManager->addSuccess(__('Thank you for inquiry , Our team will contact you soon. '));
+            $this->messageManager->addSuccessMessage(__('Thank you for inquiry , Our team will contact you soon. '));
             $this->_redirect($this->_redirect->getRefererUrl());
             return;
         } catch (Exception $e) {
-            $this->messageManager->addError(__('We can\'t process your inquiry right now. Sorry, please contact support team.'));
+            $this->messageManager->addErrorMessage(__('We can\'t process your inquiry right now. Sorry, please contact support team.'));
             $this->_redirect($this->_redirect->getRefererUrl());
             return;
         }

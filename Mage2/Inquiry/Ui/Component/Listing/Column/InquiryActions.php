@@ -1,4 +1,12 @@
 <?php
+/**
+ * Product Name: Mage2 Product Inquiry
+ * Module Name: Mage2_Inquiry
+ * Created By: Yogesh Shishangiya
+ */
+
+declare(strict_types=1);
+
 namespace Mage2\Inquiry\Ui\Component\Listing\Column;
 
 use Magento\Framework\UrlInterface;
@@ -9,15 +17,17 @@ use Magento\Framework\App\ObjectManager;
 use Magento\Framework\Escaper;
 
 /**
- * Class BlockActions
+ * Class InquiryActions
+ *
+ * @package Mage2\Inquiry\Ui\Component\Listing\Column
  */
 class InquiryActions extends Column
 {
     /**
      * Url path
      */
-    const URL_PATH_EDIT = 'inquiry/inquiry/edit';
-    const URL_PATH_DELETE = 'inquiry/inquiry/delete';
+    const URL_PATH_EDIT    = 'inquiry/inquiry/edit';
+    const URL_PATH_DELETE  = 'inquiry/inquiry/delete';
     const URL_PATH_DETAILS = 'inquiry/inquiry/view';
 
     /**
@@ -58,10 +68,10 @@ class InquiryActions extends Column
         if (isset($dataSource['data']['items'])) {
             foreach ($dataSource['data']['items'] as & $item) {
                 if (isset($item['inquiry_id'])) {
-                    $name = $this->getEscaper()->escapeHtml($item['name']);
+                    $name                         = $this->getEscaper()->escapeHtml($item['name']);
                     $item[$this->getData('name')] = [
-                        'edit' => [
-                            'href' => $this->urlBuilder->getUrl(
+                        'edit'   => [
+                            'href'  => $this->urlBuilder->getUrl(
                                 static::URL_PATH_EDIT,
                                 [
                                     'inquiry_id' => $item['inquiry_id']
@@ -70,18 +80,18 @@ class InquiryActions extends Column
                             'label' => __('Edit')
                         ],
                         'delete' => [
-                            'href' => $this->urlBuilder->getUrl(
+                            'href'    => $this->urlBuilder->getUrl(
                                 static::URL_PATH_DELETE,
                                 [
                                     'inquiry_id' => $item['inquiry_id']
                                 ]
                             ),
-                            'label' => __('Delete'),
+                            'label'   => __('Delete'),
                             'confirm' => [
-                                'title' => __('Delete %1', $name),
+                                'title'   => __('Delete %1', $name),
                                 'message' => __('Are you sure you want to delete a %1?', $name)
                             ],
-                            'post' => true
+                            'post'    => true
                         ]
                     ];
                 }

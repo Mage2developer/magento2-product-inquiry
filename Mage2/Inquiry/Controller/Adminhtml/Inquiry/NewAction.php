@@ -1,4 +1,11 @@
 <?php
+/**
+ * Product Name: Mage2 Product Inquiry
+ * Module Name: Mage2_Inquiry
+ * Created By: Yogesh Shishangiya
+ */
+
+declare(strict_types=1);
 
 namespace Mage2\Inquiry\Controller\Adminhtml\Inquiry;
 
@@ -9,6 +16,11 @@ use Magento\Framework\App\Action\HttpGetActionInterface as HttpGetActionInterfac
 use Magento\Framework\Controller\ResultInterface;
 use Magento\Framework\Registry;
 
+/**
+ * Class NewAction
+ *
+ * @package Mage2\Inquiry\Controller\Adminhtml\Inquiry
+ */
 class NewAction extends Inquiry implements HttpGetActionInterface
 {
     /**
@@ -35,7 +47,6 @@ class NewAction extends Inquiry implements HttpGetActionInterface
      *
      * @return ResultInterface
      */
-
     public function execute()
     {
         $resultForward = $this->resultForwardFactory->create();

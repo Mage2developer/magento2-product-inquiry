@@ -1,37 +1,38 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: yogesh
- * Date: 7/2/19
- * Time: 6:15 PM
+ * Product Name: Mage2 Product Inquiry
+ * Module Name: Mage2_Inquiry
+ * Created By: Yogesh Shishangiya
  */
+
+declare(strict_types=1);
+
 namespace Mage2\Inquiry\Api\Data;
 
 /**
- * Inquiry Interface
- * @api
- * @since 100.0.2
+ * Interface InquiryInterface
+ *
+ * @package Mage2\Inquiry\Api\Data
  */
 interface InquiryInterface
 {
-    /**#@+
+    /**
      * Constants for keys of data array. Identical to the name of the getter in snake case
      */
-    const INQUIRY_ID      = 'inquiry_id';
-    const NAME            = 'name';
-    const MOBILE_NUMBER   = 'mobile_number';
-    const MESSAGE         = 'message';
-    const EMAIL           = 'email';
-    const PRODUCT_ID      = 'product_id';
-    const STATUS          = 'status';
-    const DISPLAY_FRONT   = 'display_front';
-    const ADMIN_MESSAGE   = 'admin_message';
-    /**#@-*/
+    const INQUIRY_ID    = 'inquiry_id';
+    const NAME          = 'name';
+    const MOBILE_NUMBER = 'mobile_number';
+    const MESSAGE       = 'message';
+    const EMAIL         = 'email';
+    const SKU           = 'SKU';
+    const STATUS        = 'status';
+    const DISPLAY_FRONT = 'display_front';
+    const ADMIN_MESSAGE = 'admin_message';
 
     /**
      * Get ID
      *
-     * @return int|null
+     * @return int
      */
     public function getId();
 
@@ -50,30 +51,30 @@ interface InquiryInterface
     public function getMobileNumber();
 
     /**
-     * Get message
+     * Get Message
      *
      * @return string|null
      */
     public function getMessage();
 
     /**
-     * Get email
+     * Get Email
      *
      * @return string|null
      */
     public function getEmail();
 
     /**
-     * Get Product Id
+     * Get Product Sku
      *
-     * @return string|null
+     * @return string
      */
-    public function getProductId();
+    public function getSku();
 
     /**
      * Get Display in front setting
      *
-     * @return string|null
+     * @return boolean|null
      */
     public function getDisplayFront();
 
@@ -85,9 +86,9 @@ interface InquiryInterface
     public function getAdminMessage();
 
     /**
-     * Get status
+     * Get Satus
      *
-     * @return bool|null
+     * @return boolean|null
      */
     public function getStatus();
 
@@ -108,7 +109,7 @@ interface InquiryInterface
     public function setName($name);
 
     /**
-     * Set MobileNumber
+     * Set Mobile Number
      *
      * @param string $mobile_number
      * @return InquiryInterface
@@ -132,15 +133,15 @@ interface InquiryInterface
     public function setEmail($email);
 
     /**
-     * set ProductId
+     * Set Product Sku
      *
-     * @param int $product_id
+     * @param string $sku
      * @return InquiryInterface
      */
-    public function setProductId($product_id);
+    public function setSku($sku);
 
     /**
-     * Set Display Front setting
+     * Set Display in front setting
      *
      * @param bool|int $display_front
      * @return InquiryInterface

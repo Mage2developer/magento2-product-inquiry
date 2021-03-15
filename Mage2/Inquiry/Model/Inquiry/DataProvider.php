@@ -1,10 +1,12 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: yogesh
- * Date: 14/2/19
- * Time: 4:56 PM
+ * Product Name: Mage2 Product Inquiry
+ * Module Name: Mage2_Inquiry
+ * Created By: Yogesh Shishangiya
  */
+
+declare(strict_types=1);
+
 namespace Mage2\Inquiry\Model\Inquiry;
 
 use Mage2\Inquiry\Model\Inquiry;
@@ -15,6 +17,8 @@ use Magento\Ui\DataProvider\ModifierPoolDataProvider;
 
 /**
  * Class DataProvider
+ *
+ * @package Mage2\Inquiry\Model\Inquiry
  */
 class DataProvider extends ModifierPoolDataProvider
 {
@@ -55,7 +59,7 @@ class DataProvider extends ModifierPoolDataProvider
         array $data = [],
         PoolInterface $pool = null
     ) {
-        $this->collection = $inquiryCollectionFactory->create();
+        $this->collection    = $inquiryCollectionFactory->create();
         $this->dataPersistor = $dataPersistor;
         parent::__construct($name, $primaryFieldName, $requestFieldName, $meta, $data, $pool);
     }

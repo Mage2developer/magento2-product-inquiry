@@ -1,35 +1,30 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: yogesh
- * Date: 5/3/19
- * Time: 5:09 PM
+ * Product Name: Mage2 Product Inquiry
+ * Module Name: Mage2_Inquiry
+ * Created By: Yogesh Shishangiya
  */
-namespace Mage2\Inquiry\Block;
 
+namespace Mage2\Inquiry\ViewModel;
+
+use Magento\Framework\View\Element\Block\ArgumentInterface;
+use Magento\Framework\Registry;
+use Magento\Framework\UrlInterface;
 use Mage2\Inquiry\Helper\Data;
 use Mage2\Inquiry\Model\ResourceModel\Inquiry\Collection;
 use Mage2\Inquiry\Model\ResourceModel\Inquiry\CollectionFactory;
-use Magento\Framework\App\Config\ScopeConfigInterface;
-use Magento\Framework\Registry;
-use Magento\Framework\View\Element\AbstractBlock;
-use Magento\Framework\View\Element\Template\Context;
 
 /**
  * Class Inquiry
- * @package Mage2\Inquiry\Block
+ *
+ * @package Mage2\Inquiry\ViewModel
  */
-class Inquiry extends AbstractBlock
+class Inquiry implements ArgumentInterface
 {
     /**
-     * @var CollectionFactory
+     * @var UrlInterface
      */
-    protected $inquiryCollectionFactory;
-
-    /**
-     * @var ScopeConfigInterface
-     */
-    protected $scopeConfig;
+    protected $urlInterface;
 
     /**
      * @var Registry
@@ -42,38 +37,42 @@ class Inquiry extends AbstractBlock
     protected $dataHelper;
 
     /**
+     * @var CollectionFactory
+     */
+    protected $inquiryCollectionFactory;
+
+    /**
      * Inquiry constructor.
-     * @param Context $context
-     * @param ScopeConfigInterface $scopeConfig
      * @param Registry $registry
-     * @param CollectionFactory $inquiryCollectionFactory
+     * @param UrlInterface $urlInterface
      * @param Data $dataHelper
-     * @param array $data
+     * @param CollectionFactory $inquiryCollectionFactory
      */
     public function __construct(
-        Context $context,
-        ScopeConfigInterface $scopeConfig,
         Registry $registry,
-        CollectionFactory $inquiryCollectionFactory,
+        UrlInterface $urlInterface,
         Data $dataHelper,
-        array $data = []
+        CollectionFactory $inquiryCollectionFactory
     ) {
-        $this->scopeConfig = $scopeConfig;
         $this->registry = $registry;
-        $this->inquiryCollectionFactory = $inquiryCollectionFactory;
+        $this->urlInterface = $urlInterface;
         $this->dataHelper = $dataHelper;
-        parent::__construct($context, $data);
+        $this->inquiryCollectionFactory = $inquiryCollectionFactory;
     }
 
     /**
+     * Get product inquiry form action url
+     *
      * @return string
      */
     public function getFormAction()
     {
-        return $this->getUrl('inquiry/index/post/', ['_secure' => true]);
+        return $this->urlInterface->getUrl('inquiry/index/post/', ['_secure' => true]);
     }
 
     /**
+     * Get current product's SKU
+     *
      * @return mixed
      */
     public function getCurrentProductSku()
@@ -83,6 +82,8 @@ class Inquiry extends AbstractBlock
     }
 
     /**
+     * Get product inquiry questions list
+     *
      * @return Collection
      */
     public function getInquiryCollection()
@@ -97,6 +98,8 @@ class Inquiry extends AbstractBlock
     }
 
     /**
+     * Get the question display setting value whether inquiry questions should display above the inquiry form
+     *
      * @return mixed
      */
     public function getQuestionDisplaySetting()

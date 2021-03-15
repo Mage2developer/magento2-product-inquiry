@@ -1,5 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<listing xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Ui:etc/ui_configuration.xsd">
+<!--
+/**
+ * Product Name: Mage2 Product Inquiry
+ * Module Name: Mage2_Inquiry
+ * Created By: Yogesh Shishangiya
+ */
+-->
+<listing xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Ui:etc/ui_configuration.xsd">
     <argument name="data" xsi:type="array">
         <item name="js_config" xsi:type="array">
             <item name="provider" xsi:type="string">inquiry_listing_index.inquiry_listing_index_data_source</item>
@@ -96,11 +104,15 @@
                 </param>
                 <param name="indexField" xsi:type="string">inquiry_id</param>
                 <param name="enabled" xsi:type="boolean">true</param>
-                <param name="selectProvider" xsi:type="string">inquiry_listing_index.inquiry_listing_index.inquiry_listing_columns.ids</param>
+                <param name="selectProvider" xsi:type="string">
+                    inquiry_listing_index.inquiry_listing_index.inquiry_listing_columns.ids
+                </param>
             </editorConfig>
             <childDefaults>
                 <param name="fieldAction" xsi:type="array">
-                    <item name="provider" xsi:type="string">inquiry_listing_index.inquiry_listing_index.inquiry_listing_columns_editor</item>
+                    <item name="provider" xsi:type="string">
+                        inquiry_listing_index.inquiry_listing_index.inquiry_listing_columns_editor
+                    </item>
                     <item name="target" xsi:type="string">startEdit</item>
                     <item name="params" xsi:type="array">
                         <item name="0" xsi:type="string">${ $.$data.rowIndex }</item>

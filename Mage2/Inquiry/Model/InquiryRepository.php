@@ -1,21 +1,22 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: yogesh
- * Date: 20/2/19
- * Time: 5:59 PM
+ * Product Name: Mage2 Product Inquiry
+ * Module Name: Mage2_Inquiry
+ * Created By: Yogesh Shishangiya
  */
+
+declare(strict_types=1);
 
 namespace Mage2\Inquiry\Model;
 
 use Exception;
 use Mage2\Inquiry\Api\Data\InquiryInterface;
 use Mage2\Inquiry\Api\Data\InquiryInterfaceFactory;
+use Mage2\Inquiry\Api\Data\InquirySearchResultsInterface;
 use Mage2\Inquiry\Api\Data\InquirySearchResultsInterfaceFactory;
 use Mage2\Inquiry\Api\InquiryRepositoryInterface;
 use Mage2\Inquiry\Model\ResourceModel\Inquiry as ResourceInquiry;
 use Mage2\Inquiry\Model\ResourceModel\Inquiry\CollectionFactory as InquiryCollectionFactory;
-use Magento\Cms\Api\Data\BlockSearchResultsInterface;
 use Magento\Cms\Model\ResourceModel\Block\Collection;
 use Magento\Framework\Api\DataObjectHelper;
 use Magento\Framework\Api\SearchCriteria\CollectionProcessorInterface;
@@ -27,8 +28,9 @@ use Magento\Framework\Reflection\DataObjectProcessor;
 use Magento\Store\Model\StoreManagerInterface;
 
 /**
- * Class BlockRepository
- * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
+ * Class InquiryRepository
+ *
+ * @package Mage2\Inquiry\Model
  */
 class InquiryRepository implements InquiryRepositoryInterface
 {
@@ -48,7 +50,7 @@ class InquiryRepository implements InquiryRepositoryInterface
     protected $inquiryCollectionFactory;
 
     /**
-     * @var Data\BlockSearchResultsInterfaceFactory
+     * @var InquirySearchResultsInterfaceFactory
      */
     protected $searchResultsFactory;
 
@@ -63,7 +65,7 @@ class InquiryRepository implements InquiryRepositoryInterface
     protected $dataObjectProcessor;
 
     /**
-     * @var \Api\Data\InquiryInterface
+     * @var InquiryInterfaceFactory
      */
     protected $dataInquiryFactory;
 
@@ -79,6 +81,7 @@ class InquiryRepository implements InquiryRepositoryInterface
 
     /**
      * InquiryRepository constructor.
+     *
      * @param ResourceInquiry $resource
      * @param InquiryFactory $inquiryFactory
      * @param InquiryInterfaceFactory $dataInquiryFactory
@@ -100,18 +103,20 @@ class InquiryRepository implements InquiryRepositoryInterface
         StoreManagerInterface $storeManager,
         CollectionProcessorInterface $collectionProcessor = null
     ) {
-        $this->resource = $resource;
-        $this->inquiryFactory = $inquiryFactory;
-        $this->dataInquiryFactory = $dataInquiryFactory;
+        $this->resource                 = $resource;
+        $this->inquiryFactory           = $inquiryFactory;
+        $this->dataInquiryFactory       = $dataInquiryFactory;
         $this->inquiryCollectionFactory = $inquiryCollectionFactory;
-        $this->searchResultsFactory = $searchResultsFactory;
-        $this->dataObjectHelper = $dataObjectHelper;
-        $this->dataObjectProcessor = $dataObjectProcessor;
-        $this->storeManager = $storeManager;
-        $this->collectionProcessor = $collectionProcessor ?: $this->getCollectionProcessor();
+        $this->searchResultsFactory     = $searchResultsFactory;
+        $this->dataObjectHelper         = $dataObjectHelper;
+        $this->dataObjectProcessor      = $dataObjectProcessor;
+        $this->storeManager             = $storeManager;
+        $this->collectionProcessor      = $collectionProcessor ?: $this->getCollectionProcessor();
     }
 
     /**
+     * Save Inquiry.
+     *
      * @param InquiryInterface $inquiry
      * @return InquiryInterface
      * @throws CouldNotSaveException
@@ -119,10 +124,6 @@ class InquiryRepository implements InquiryRepositoryInterface
      */
     public function save(InquiryInterface $inquiry)
     {
-        if (empty($inquiry->getStoreId())) {
-            $inquiry->setStoreId($this->storeManager->getStore()->getId());
-        }
-
         try {
             $this->resource->save($inquiry);
         } catch (Exception $exception) {
@@ -132,29 +133,10 @@ class InquiryRepository implements InquiryRepositoryInterface
     }
 
     /**
-     * Load Block data by given Block Identity
+     * Retrieve inquiries matching the specified criteria.
      *
-     * @param string $inquiryId
-     * @return Block
-     * @throws NoSuchEntityException
-     */
-    public function getById($inquiryId)
-    {
-        $inquiry = $this->inquiryFactory->create();
-        $this->resource->load($inquiry, $inquiryId);
-        if (!$inquiry->getId()) {
-            throw new NoSuchEntityException(__('The Inquiry with the "%1" ID doesn\'t exist.', $inquiryId));
-        }
-        return $inquiry;
-    }
-
-    /**
-     * Load Block data collection by given search criteria
-     *
-     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
-     * @SuppressWarnings(PHPMD.NPathComplexity)
-     * @param SearchCriteriaInterface $criteria
-     * @return BlockSearchResultsInterface
+     * @param SearchCriteriaInterface $searchCriteria
+     * @return InquirySearchResultsInterface
      */
     public function getList(SearchCriteriaInterface $criteria)
     {
@@ -163,7 +145,7 @@ class InquiryRepository implements InquiryRepositoryInterface
 
         $this->collectionProcessor->process($criteria, $collection);
 
-        /** @var Data\BlockSearchResultsInterface $searchResults */
+        /** @var InquirySearchResultsInterface $searchResults */
         $searchResults = $this->searchResultsFactory->create();
         $searchResults->setSearchCriteria($criteria);
         $searchResults->setItems($collection->getItems());
@@ -172,7 +154,19 @@ class InquiryRepository implements InquiryRepositoryInterface
     }
 
     /**
-     * Delete Block
+     * Delete Inquiry by given Inquiry Identity
+     *
+     * @param string $inquiryId
+     * @return bool
+     * @throws CouldNotDeleteException
+     */
+    public function deleteById($inquiryId)
+    {
+        return $this->delete($this->getById($inquiryId));
+    }
+
+    /**
+     * Delete inquiry
      *
      * @param InquiryInterface $inquiry
      * @return bool
@@ -189,15 +183,19 @@ class InquiryRepository implements InquiryRepositoryInterface
     }
 
     /**
-     * Delete Inquiry by given Inquiry Identity
+     * Retrieve inquiry by ID.
      *
-     * @param string $inquiryId
-     * @return bool
-     * @throws CouldNotDeleteException
+     * @param int $inquiry_id
+     * @return InquiryInterface
      * @throws NoSuchEntityException
      */
-    public function deleteById($inquiryId)
+    public function getById($inquiry_id)
     {
-        return $this->delete($this->getById($inquiryId));
+        $inquiry = $this->inquiryFactory->create();
+        $this->resource->load($inquiry, $inquiry_id);
+        if (!$inquiry->getId()) {
+            throw new NoSuchEntityException(__('The Inquiry with the "%1" ID doesn\'t exist.', $inquiry_id));
+        }
+        return $inquiry;
     }
 }

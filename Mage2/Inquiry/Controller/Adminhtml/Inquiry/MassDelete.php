@@ -1,7 +1,14 @@
 <?php
+/**
+ * Product Name: Mage2 Product Inquiry
+ * Module Name: Mage2_Inquiry
+ * Created By: Yogesh Shishangiya
+ */
+
+declare(strict_types=1);
+
 namespace Mage2\Inquiry\Controller\Adminhtml\Inquiry;
 
-use Exception;
 use Magento\Backend\App\Action;
 use Magento\Backend\Model\View\Result\Redirect;
 use Magento\Framework\Controller\ResultFactory;
@@ -12,6 +19,8 @@ use Mage2\Inquiry\Model\ResourceModel\Inquiry\CollectionFactory;
 
 /**
  * Class MassDelete
+ *
+ * @package Mage2\Inquiry\Controller\Adminhtml\Inquiry
  */
 class MassDelete extends Action
 {
@@ -40,20 +49,20 @@ class MassDelete extends Action
 
     public function __construct(Context $context, Filter $filter, CollectionFactory $collectionFactory)
     {
-        $this->filter = $filter;
+        $this->filter            = $filter;
         $this->collectionFactory = $collectionFactory;
         parent::__construct($context);
     }
 
     /**
-     * Execute action
+     * Mass delete action
      *
-     * @return Redirect
-     * @throws LocalizedException|Exception
+     * @return Redirect|\Magento\Framework\App\ResponseInterface|\Magento\Framework\Controller\ResultInterface
+     * @throws LocalizedException
      */
     public function execute()
     {
-        $collection = $this->filter->getCollection($this->collectionFactory->create());
+        $collection     = $this->filter->getCollection($this->collectionFactory->create());
         $collectionSize = $collection->getSize();
 
         foreach ($collection as $inquiry) {

@@ -1,9 +1,13 @@
 <?php
 /**
- * Copyright © Mage2 Developer, Inc. All rights reserved.
- * See COPYING.txt for license details.
+ * Product Name: Mage2 Product Inquiry
+ * Module Name: Mage2_Inquiry
+ * Created By: Yogesh Shishangiya
  */
-namespace Mage2\Inquiry\Controller\Adminhtml\inquiry;
+
+declare(strict_types=1);
+
+namespace Mage2\Inquiry\Controller\Adminhtml\Inquiry;
 
 use Exception;
 use Mage2\Inquiry\Model\InquiryRepository;
@@ -11,15 +15,21 @@ use Magento\Backend\App\Action;
 use Magento\Backend\App\Action\Context;
 use Magento\Backend\Model\View\Result\Redirect;
 
+/**
+ * Class Delete
+ *
+ * @package Mage2\Inquiry\Controller\Adminhtml\Inquiry
+ */
 class Delete extends Action
 {
     /**
-     * @var ResourceInquiry
+     * @var InquiryRepository
      */
     protected $inquiryRepository;
 
     /**
      * Delete constructor.
+     *
      * @param Context $context
      * @param InquiryRepository $inquiryRepository
      */
@@ -30,23 +40,24 @@ class Delete extends Action
         $this->inquiryRepository = $inquiryRepository;
         parent::__construct($context);
     }
+
     /**
      * Delete action
      *
-     * @return Redirect
+     * @return Redirect|\Magento\Framework\App\ResponseInterface|\Magento\Framework\Controller\ResultInterface
      */
     public function execute()
     {
         /** @var Redirect $resultRedirect */
         $resultRedirect = $this->resultRedirectFactory->create();
-        $id = $this->getRequest()->getParam('inquiry_id');
+        $id             = $this->getRequest()->getParam('inquiry_id');
         if ($id) {
             try {
                 $this->inquiryRepository->deleteById($id);
-                $this->messageManager->addSuccess(__('The item has been deleted.'));
+                $this->messageManager->addSuccessMessage(__('The item has been deleted.'));
                 return $resultRedirect->setPath('*/*/');
             } catch (Exception $e) {
-                $this->messageManager->addError($e->getMessage());
+                $this->messageManager->addErrorMessage($e->getMessage());
                 return $resultRedirect->setPath('*/*/edit', ['inquiry_id' => $id]);
             }
         }

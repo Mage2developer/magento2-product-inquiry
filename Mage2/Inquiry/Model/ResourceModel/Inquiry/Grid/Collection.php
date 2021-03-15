@@ -1,10 +1,12 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: yogesh
- * Date: 21/2/19
- * Time: 6:47 PM
+ * Product Name: Mage2 Product Inquiry
+ * Module Name: Mage2_Inquiry
+ * Created By: Yogesh Shishangiya
  */
+
+declare(strict_types=1);
+
 namespace Mage2\Inquiry\Model\ResourceModel\Inquiry\Grid;
 
 use Magento\Framework\Api\ExtensibleDataInterface;
@@ -23,7 +25,9 @@ use Magento\Store\Model\StoreManagerInterface;
 use Psr\Log\LoggerInterface;
 
 /**
- * Collection for displaying grid of cms blocks
+ * Class Collection
+ *
+ * @package Mage2\Inquiry\Model\ResourceModel\Inquiry\Grid
  */
 class Collection extends InquiryCollection implements SearchResultInterface
 {
@@ -77,6 +81,8 @@ class Collection extends InquiryCollection implements SearchResultInterface
     }
 
     /**
+     * Get aggregations
+     *
      * @return AggregationInterface
      */
     public function getAggregations()
@@ -85,6 +91,8 @@ class Collection extends InquiryCollection implements SearchResultInterface
     }
 
     /**
+     * Set Aggregations
+     *
      * @param AggregationInterface $aggregations
      * @return $this
      */
@@ -107,9 +115,8 @@ class Collection extends InquiryCollection implements SearchResultInterface
     /**
      * Set search criteria.
      *
-     * @param SearchCriteriaInterface $searchCriteria
-     * @return $this
-     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+     * @param SearchCriteriaInterface|null $searchCriteria
+     * @return $this|Collection
      */
     public function setSearchCriteria(SearchCriteriaInterface $searchCriteria = null)
     {
@@ -130,8 +137,7 @@ class Collection extends InquiryCollection implements SearchResultInterface
      * Set total count.
      *
      * @param int $totalCount
-     * @return $this
-     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+     * @return $this|Collection
      */
     public function setTotalCount($totalCount)
     {
@@ -141,9 +147,8 @@ class Collection extends InquiryCollection implements SearchResultInterface
     /**
      * Set items list.
      *
-     * @param ExtensibleDataInterface[] $items
-     * @return $this
-     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+     * @param array|null $items
+     * @return $this|Collection
      */
     public function setItems(array $items = null)
     {

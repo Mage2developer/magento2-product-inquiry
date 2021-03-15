@@ -1,32 +1,34 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: yogesh
- * Date: 20/2/19
- * Time: 7:57 PM
+ * Product Name: Mage2 Product Inquiry
+ * Module Name: Mage2_Inquiry
+ * Created By: Yogesh Shishangiya
  */
+
+declare(strict_types=1);
+
 namespace Mage2\Inquiry\Api\Data;
 
 use Magento\Framework\Api\SearchResultsInterface;
 
 /**
- * Interface for cms block search results.
- * @api
- * @since 100.0.2
+ * Interface InquirySearchResultsInterface
+ *
+ * @package Mage2\Inquiry\Api\Data
  */
 interface InquirySearchResultsInterface extends SearchResultsInterface
 {
     /**
-     * Get blocks list.
+     * Get inquiry list.
      *
-     * @return \Magento\Cms\Api\Data\BlockInterface[]
+     * @return InquiryInterface[]
      */
     public function getItems();
 
     /**
-     * Set blocks list.
+     * Set inquiry list.
      *
-     * @param \Magento\Cms\Api\Data\BlockInterface[] $items
+     * @param InquiryInterface[] $items
      * @return $this
      */
     public function setItems(array $items);

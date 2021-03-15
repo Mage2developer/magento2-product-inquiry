@@ -1,14 +1,23 @@
 <?php
-namespace  Mage2\Inquiry\Model\ResourceModel;
+/**
+ * Product Name: Mage2 Product Inquiry
+ * Module Name: Mage2_Inquiry
+ * Created By: Yogesh Shishangiya
+ */
+
+declare(strict_types=1);
+
+namespace Mage2\Inquiry\Model\ResourceModel;
 
 use \Magento\Framework\Model\ResourceModel\Db\AbstractDb;
 
 /**
- * Inquiry post mysql resource
+ * Class Inquiry
+ *
+ * @package Mage2\Inquiry\Model\ResourceModel
  */
 class Inquiry extends AbstractDb
 {
-
     /**
      * Initialize resource model
      *
