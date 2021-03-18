@@ -1,8 +1,12 @@
 <?php
 /**
- * Product Name: Mage2 Product Inquiry
- * Module Name: Mage2_Inquiry
- * Created By: Yogesh Shishangiya
+ * Mage2developer
+ * Copyright (C) 2021 Mage2developer
+ *
+ * @category Mage2developer
+ * @package Mage2_Inquiry
+ * @copyright Copyright (c) 2021 Mage2developer
+ * @author Mage2developer <mage2developer@gmail.com>
  */
 
 declare(strict_types=1);
